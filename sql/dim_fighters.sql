@@ -1,6 +1,6 @@
-SELECT JSON_EXTRACT(l.payload, '$.fighter_id') fighter_id
-     , JSON_EXTRACT(l.payload, '$.fighter_name') fighter_name
+SELECT l.payload->>'fighter_id' fighter_id
+     , l.payload->>'fighter_name' fighter_name
 
-FROM logs l
+FROM {{prefix_logs}}logs l
 
 WHERE event_type = 'fighterCreation'

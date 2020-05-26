@@ -18,14 +18,20 @@ class LoadData(PythonTask):
 
     def run(self):
 
+        #we want to load the logs to the relevant schema depending whether we are testing or running on production
+        user_prefix = self.sayn_config.parameters['user_prefix']
+        schema_logs = self.sayn_config.parameters['schema_logs']
+        prefix_logs = schema_logs + '.' + user_prefix
+
         #log loader
         def load_logs(logs, event_type):
             global lcount
 
             for l in logs:
                 q_insert = '''
-                    INSERT INTO logs VALUES({lcount}, '{event_type}', '{payload}')
+                    INSERT INTO {prefix_logs}logs VALUES({lcount}, '{event_type}', '{payload}')
                 '''.format(
+                    prefix_logs=prefix_logs,
                     lcount=lcount,
                     event_type=event_type,
                     payload=json.dumps(l)
@@ -39,16 +45,16 @@ class LoadData(PythonTask):
         logging.debug("Creating log table.")
 
         q_create = '''
-            DROP TABLE IF EXISTS logs
+            DROP TABLE IF EXISTS {prefix_logs}logs
             ;
 
-            CREATE TABLE logs (
+            CREATE TABLE {prefix_logs}logs (
                 event_id INTEGER PRIMARY KEY,
                 event_type VARCHAR,
                 payload JSON
             )
             ;
-            '''
+            '''.format(prefix_logs=prefix_logs)
 
         self.default_db.execute(q_create)
 

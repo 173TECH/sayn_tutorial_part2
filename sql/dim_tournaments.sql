@@ -1,6 +1,6 @@
-SELECT JSON_EXTRACT(l.payload, '$.tournament_id') tournament_id
-     , JSON_EXTRACT(l.payload, '$.tournament_name') tournament_name
+SELECT l.payload->>'tournament_id' tournament_id
+     , l.payload->>'tournament_name' tournament_name
 
-FROM logs l
+FROM {{prefix_logs}}logs l
 
 WHERE event_type = 'tournamentCreation'
