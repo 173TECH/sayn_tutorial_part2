@@ -12,6 +12,8 @@ presets:
       tmp_schema: main
       schema: main
       table: '{{user_prefix}}{{task.name}}'
+    parents:
+      - load_data
 
 # DAGs define at minimum a set of tasks
 # Those will be run for this DAG when SAYN runs
@@ -30,23 +32,16 @@ tasks:
   # the SQL queries for those models are stored into the sql folder
   dim_tournaments:
     preset: modelling
-    parents:
-      - load_data
 
   dim_arenas:
     preset: modelling
-    parents:
-      - load_data
 
   dim_fighters:
     preset: modelling
-    parents:
-      - load_data
 
   f_battles:
     preset: modelling
     parents:
-      - load_data
       - dim_tournaments
       - dim_arenas
       - dim_fighters
