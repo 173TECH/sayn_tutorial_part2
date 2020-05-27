@@ -3,6 +3,7 @@
 __pycache__
 *.pyc
 settings.yaml
+*.db
 
 #ignore folders
 compile/

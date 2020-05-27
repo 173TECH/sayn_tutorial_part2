@@ -1,54 +1,63 @@
-#This tutorial is composed of one main DAG
-#Please the specific DAG section of the documentation for more detail about SAYN DAGs
-#https://173tech.github.io/sayn/dags/
+# This tutorial is composed of one DAG
+# Please see the DAG section of the documentation for more details:
+# https://173tech.github.io/sayn/dags/
 
-#presets define standardised tasks which help avoid repetition when defining tasks
-#a task can inherit from a preset by setting its preset attribute
-presets:
-  modelling:
-    type: autosql
-    file_name: '{{task.name}}.sql'
-    materialisation: table
-    destination:
-      tmp_schema: '{{schema_staging}}'
-      schema: '{{schema_models}}'
-      table: '{{user_prefix}}{{task.name}}'
-    parameters:
-      prefix_logs: '{{schema_logs}}.{{user_prefix}}'
-      prefix_models: '{{schema_models}}.{{user_prefix}}'
-
-#DAGs define at minimum a set of tasks
-#Those are the tasks that will be run for this DAG when SAYN runs
-#To run the tutorial, run the command 'sayn run' from the root of the project folder
+# DAGs define at minimum a set of tasks
+# Those will be run for this DAG when SAYN runs
+# To run the tutorial, run the command 'sayn run' from the project folder's root
 tasks:
-  #python
-  #here we define a Python task. Those tasks are stored into the python folder
-  #this task loads some data into our database
+  # python
+  # here we define a Python task
+  # python tasks are stored into the python folder
+  # this task loads some data into our SQLite database
   load_data:
     type: python
     class: load_data.LoadData
 
-  #autosql
-  #here we define some autosql tasks which enable to write a SELECT statement and SAYN creates the table / view automatically
-  #the sql queries for those models are stored into the sql folder
-  #we refer to the modelling preset for those tasks. Therefore, those tasks inherit the attributes of the modelling preset.
+  # autosql
+  # autosql tasks enable to write a SELECT statement and SAYN creates the table / view automatically
+  # the SQL queries for those models are stored into the sql folder
   dim_tournaments:
-    preset: modelling
+    type: autosql
+    file_name: dim_tournaments.sql
+    materialisation: table
+    destination:
+      tmp_schema: main
+      schema: main
+      table: dim_tournaments
     parents:
       - load_data
 
   dim_arenas:
-    preset: modelling
+    type: autosql
+    file_name: dim_arenas.sql
+    materialisation: table
+    destination:
+      tmp_schema: main
+      schema: main
+      table: dim_arenas
     parents:
       - load_data
 
   dim_fighters:
-    preset: modelling
+    type: autosql
+    file_name: dim_fighters.sql
+    materialisation: table
+    destination:
+      tmp_schema: main
+      schema: main
+      table: dim_fighters
     parents:
       - load_data
 
   f_battles:
-    preset: modelling
+    type: autosql
+    file_name: f_battles.sql
+    materialisation: table
+    destination:
+      tmp_schema: main
+      schema: main
+      table: f_battles
     parents:
       - load_data
       - dim_tournaments
@@ -56,13 +65,23 @@ tasks:
       - dim_fighters
 
   f_fighter_results:
-    preset: modelling
+    type: autosql
+    file_name: f_fighter_results.sql
+    materialisation: table
+    destination:
+      tmp_schema: main
+      schema: main
+      table: f_fighter_results
     parents:
       - f_battles
 
-  #for that task, we overwrite the modelling preset materialisation attribute as we want this model to be a view
   f_rankings:
-    preset: modelling
+    type: autosql
+    file_name: f_rankings.sql
     materialisation: view
+    destination:
+      tmp_schema: main
+      schema: main
+      table: f_rankings
     parents:
       - f_fighter_results

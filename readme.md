@@ -1,7 +1,4 @@
-This is an example SAYN project. It is used for the Tutorial: Intermediate Usage and shows you how to implement and use SAYN for data modelling and processing.
-
-Link to the tutorial:
-https://173tech.github.io/sayn/tutorials/tutorial_intermediate/
+This is an example SAYN project. It shows you how to implement and use SAYN for data modelling and processing.
 
 For more details, you can see the documentation here: https://173tech.github.io/sayn/
 

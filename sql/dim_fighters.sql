@@ -1,6 +1,4 @@
-SELECT l.payload->>'fighter_id' fighter_id
-     , l.payload->>'fighter_name' fighter_name
+SELECT l.fighter_id
+     , l.fighter_name
 
-FROM {{prefix_logs}}logs l
-
-WHERE event_type = 'fighterCreation'
+FROM logs_fighters l
