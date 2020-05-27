@@ -31,3 +31,10 @@ default_db: warehouse
 # refer to the dags without the .yaml extension
 dags:
   - base
+
+##############
+#Parameters SECTION
+##############
+# sets the project's parameters and their default value for customisation
+parameters:
+  user_prefix: '' #no prefix for prod

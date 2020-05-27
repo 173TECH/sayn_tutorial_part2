@@ -2,6 +2,17 @@
 # Please see the DAG section of the documentation for more details:
 # https://173tech.github.io/sayn/dags/
 
+# presets are used to create standard tasks which can be used to define tasks quickly
+presets:
+  modelling:
+    type: autosql
+    file_name: '{{task.name}}.sql'
+    materialisation: table
+    destination:
+      tmp_schema: main
+      schema: main
+      table: '{{user_prefix}}{{task.name}}'
+
 # DAGs define at minimum a set of tasks
 # Those will be run for this DAG when SAYN runs
 # To run the tutorial, run the command 'sayn run' from the project folder's root
@@ -18,46 +29,22 @@ tasks:
   # autosql tasks enable to write a SELECT statement and SAYN creates the table / view automatically
   # the SQL queries for those models are stored into the sql folder
   dim_tournaments:
-    type: autosql
-    file_name: dim_tournaments.sql
-    materialisation: table
-    destination:
-      tmp_schema: main
-      schema: main
-      table: dim_tournaments
+    preset: modelling
     parents:
       - load_data
 
   dim_arenas:
-    type: autosql
-    file_name: dim_arenas.sql
-    materialisation: table
-    destination:
-      tmp_schema: main
-      schema: main
-      table: dim_arenas
+    preset: modelling
     parents:
       - load_data
 
   dim_fighters:
-    type: autosql
-    file_name: dim_fighters.sql
-    materialisation: table
-    destination:
-      tmp_schema: main
-      schema: main
-      table: dim_fighters
+    preset: modelling
     parents:
       - load_data
 
   f_battles:
-    type: autosql
-    file_name: f_battles.sql
-    materialisation: table
-    destination:
-      tmp_schema: main
-      schema: main
-      table: f_battles
+    preset: modelling
     parents:
       - load_data
       - dim_tournaments
@@ -65,23 +52,12 @@ tasks:
       - dim_fighters
 
   f_fighter_results:
-    type: autosql
-    file_name: f_fighter_results.sql
-    materialisation: table
-    destination:
-      tmp_schema: main
-      schema: main
-      table: f_fighter_results
+    preset: modelling
     parents:
       - f_battles
 
   f_rankings:
-    type: autosql
-    file_name: f_rankings.sql
+    preset: modelling
     materialisation: view
-    destination:
-      tmp_schema: main
-      schema: main
-      table: f_rankings
     parents:
       - f_fighter_results

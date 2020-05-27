@@ -6,7 +6,7 @@ WITH fighter1_outcome AS (
        , b.fighter1_name
        , CASE WHEN b.fighter1_name = b.winner_name THEN 1 ELSE 0 END AS is_winner
 
-  FROM f_battles b
+  FROM {{user_prefix}}f_battles b
 )
 
 , fighter2_outcome AS (
@@ -17,7 +17,7 @@ WITH fighter1_outcome AS (
        , b.fighter2_name
        , CASE WHEN b.fighter2_name = b.winner_name THEN 1 ELSE 0 END AS is_winner
 
-  FROM f_battles b
+  FROM {{user_prefix}}f_battles b
 )
 
 SELECT f1.tournament_name

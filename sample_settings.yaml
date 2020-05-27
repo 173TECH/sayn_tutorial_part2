@@ -27,9 +27,13 @@ profiles:
   dev:
     credentials:
       warehouse: test_db
+    parameters:
+      user_prefix: 'sg_'
   prod:
     credentials:
       warehouse: prod_db
+    parameters:
+      user_prefix: '' #no prefix for prod
 
 ##############
 #CREDENTIALS SECTION

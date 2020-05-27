@@ -14,8 +14,10 @@ class LoadData(PythonTask):
            {"tournament_id": 3, "n_battles": 500},
        ]
 
+       user_prefix = self.sayn_config.parameters['user_prefix']
+
        try:
-           self.data_to_load = prepare_data(tournament_battles)
+           self.data_to_load = prepare_data(tournament_battles, user_prefix=user_prefix)
        except Exception as e:
            err = True
            logging.error(e)
@@ -26,6 +28,8 @@ class LoadData(PythonTask):
            return self.ready()
 
     def run(self):
+
+        user_prefix = self.sayn_config.parameters['user_prefix']
 
         # load the logs
         for log_type, log_details in self.data_to_load.items():
@@ -39,7 +43,7 @@ class LoadData(PythonTask):
             logs = log_details['data']
 
             for log in logs:
-                q_insert = generate_load_query(log_type, log)
+                q_insert = generate_load_query(log_type, log, user_prefix=user_prefix)
 
                 self.default_db.execute(q_insert)
 

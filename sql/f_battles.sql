@@ -7,7 +7,7 @@ WITH battles AS (
        , l.fighter2_id
        , l.winner_id
 
-  FROM logs_battles l
+  FROM {{user_prefix}}logs_battles l
 )
 
 SELECT t.tournament_name
