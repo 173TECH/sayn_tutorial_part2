@@ -9,8 +9,6 @@ presets:
     file_name: '{{task.name}}.sql'
     materialisation: table
     destination:
-      tmp_schema: main
-      schema: main
       table: '{{user_prefix}}{{task.name}}'
     parents:
       - load_data
