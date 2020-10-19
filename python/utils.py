@@ -1,8 +1,7 @@
 import random
 from uuid import uuid4
 
-# Table creation queries
-
+# Log definitions
 log_types = {
     "fighters": {
         "columns": {"fighter_id": "INTEGER", "fighter_name": "VARCHAR"},
@@ -130,4 +129,3 @@ def get_create_table(log_type, user_prefix=""):
     q_create = f"CREATE TABLE {user_prefix}logs_{log_type} ({columns_def})"
 
     return f"{q_drop};\n\n{q_create};"
-
