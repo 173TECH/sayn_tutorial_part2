@@ -24,15 +24,6 @@ required_credentials:
 default_db: warehouse
 
 ##############
-#DAGs SECTION
-##############
-# specifies the DAGs that are run by the SAYN project
-# those DAGs are stored into the dags folder and contain the details of the SAYN tasks
-# refer to the dags without the .yaml extension
-dags:
-  - base
-
-##############
 #Parameters SECTION
 ##############
 # sets the project's parameters and their default value for customisation

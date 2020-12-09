@@ -28,7 +28,7 @@ profiles:
     credentials:
       warehouse: test_db
     parameters:
-      user_prefix: 'sg_'
+      user_prefix: 'up_'
   prod:
     credentials:
       warehouse: prod_db
